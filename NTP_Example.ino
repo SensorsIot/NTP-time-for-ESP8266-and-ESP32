@@ -76,7 +76,7 @@ void setup() {
   int counter;
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
-    if (counter++ > 10) ESP.restart();
+    if (++counter > 10) ESP.restart();
     Serial.print ( "." );
   }
   Serial.println("\n\nWiFi connected\n\n");

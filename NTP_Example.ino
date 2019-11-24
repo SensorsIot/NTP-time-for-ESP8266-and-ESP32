@@ -123,6 +123,11 @@ bool getNTPtime(int sec) {
   return true;
 }
 
+
+// This function is obsolete because the time() function only calls the NTP server every hour. So you can always use getNTPtime() 
+// It can be deleted and only stays here for the video
+
+/*
 void getTimeReducedTraffic(int sec) {
   tm *ptm;
   if ((millis() - lastEntryTime) < (1000 * sec)) {
@@ -136,6 +141,7 @@ void getTimeReducedTraffic(int sec) {
   ptm = localtime(&now);
   timeinfo = *ptm;
 }
+*/
 
 void showTime(tm *localTime) {
   Serial.print(localTime->tm_mday);

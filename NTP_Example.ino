@@ -39,19 +39,20 @@
 #include <WiFi.h>
 #endif
 #include <Time.h>
-#include <credentials.h>
 
 /*
   The credentials.h file at least has to contain:
+  #define CREDENTIALS
   char mySSID[]="your SSID";
   char myPASSWORD[]="your Password";
 
   It has to be placed in the libraries folder
 
-  If you do not want a credentials file. delete the line: #include <credentials.h>
+  If you do not want to use a credentials file define the SSID and password below
 */
 
 #ifdef CREDENTIALS
+#include <credentials.h>
 const char* ssid = mySSID;
 const char* password = myPASSWORD;
 #else

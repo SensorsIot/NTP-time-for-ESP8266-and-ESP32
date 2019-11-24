@@ -56,8 +56,8 @@
 const char* ssid = mySSID;
 const char* password = myPASSWORD;
 #else
-const char* ssid       = "UPC3150657";
-const char* password   = "et8dmthknBVf";
+const char* ssid       = "yourSSID";
+const char* password   = "YourPassword";
 #endif
 
 const char* NTP_SERVER = "ch.pool.ntp.org";

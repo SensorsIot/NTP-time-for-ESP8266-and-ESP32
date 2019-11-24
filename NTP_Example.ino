@@ -56,8 +56,8 @@
 const char* ssid = mySSID;
 const char* password = myPASSWORD;
 #else
-const char* ssid = "yourSSID";
-const char* password = "YourPassword";
+const char* ssid       = "UPC3150657";
+const char* password   = "et8dmthknBVf";
 #endif
 
 const char* NTP_SERVER = "ch.pool.ntp.org";
@@ -74,10 +74,10 @@ void setup() {
   Serial.println("\n\nNTP Time Test\n");
   WiFi.begin(ssid, password);
 
-  int counter;
+  int counter=0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
-    if (counter > 10) ESP.restart();
+    if (++counter > 10) ESP.restart();
     Serial.print ( "." );
   }
   Serial.println("\n\nWiFi connected\n\n");

@@ -73,7 +73,7 @@ void setup() {
   Serial.println("\n\nNTP Time Test\n");
   WiFi.begin(ssid, password);
 
-  int counter;
+  int counter = 0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
     if (++counter > 10) ESP.restart();

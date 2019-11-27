@@ -39,7 +39,7 @@
 #include <WiFi.h>
 #endif
 #include <time.h>
-#include <credentials.h>
+// #include <credentials.h>
 
 /*
   The credentials.h file at least has to contain:

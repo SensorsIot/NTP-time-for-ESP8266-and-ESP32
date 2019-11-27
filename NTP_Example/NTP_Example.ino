@@ -39,7 +39,7 @@
 #include <WiFi.h>
 #endif
 #include <time.h>
-// #include <credentials.h>
+#include <credentials.h>
 
 /*
   The credentials.h file at least has to contain:
@@ -76,7 +76,7 @@ void setup() {
   int counter = 0;
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
-    if (++counter > 10) ESP.restart();
+    if (++counter > 100) ESP.restart();
     Serial.print ( "." );
   }
   Serial.println("\n\nWiFi connected\n\n");
@@ -90,7 +90,7 @@ void setup() {
     Serial.println("Time not set");
     ESP.restart();
   }
-  showTime(&timeinfo);
+  showTime(timeinfo);
   lastNTPtime = time(&now);
   lastEntryTime = millis();
 }
@@ -99,7 +99,7 @@ void setup() {
 void loop() {
   // getTimeReducedTraffic(3600);
   getNTPtime(10);
-  showTime(&timeinfo);
+  showTime(timeinfo);
   delay(1000);
 }
 
@@ -115,7 +115,7 @@ bool getNTPtime(int sec) {
     } while (((millis() - start) <= (1000 * sec)) && (timeinfo.tm_year < (2016 - 1900)));
     if (timeinfo.tm_year <= (2016 - 1900)) return false;  // the NTP call was not successful
     Serial.print("now ");  Serial.println(now);
-      char time_output[30];
+    char time_output[30];
     strftime(time_output, 30, "%a  %d-%m-%y %T", localtime(&now));
     Serial.println(time_output);
     Serial.println();
@@ -124,11 +124,11 @@ bool getNTPtime(int sec) {
 }
 
 
-// This function is obsolete because the time() function only calls the NTP server every hour. So you can always use getNTPtime() 
+// This function is obsolete because the time() function only calls the NTP server every hour. So you can always use getNTPtime()
 // It can be deleted and only stays here for the video
 
 /*
-void getTimeReducedTraffic(int sec) {
+  void getTimeReducedTraffic(int sec) {
   tm *ptm;
   if ((millis() - lastEntryTime) < (1000 * sec)) {
     now = lastNTPtime + (int)(millis() - lastEntryTime) / 1000;
@@ -140,22 +140,41 @@ void getTimeReducedTraffic(int sec) {
   }
   ptm = localtime(&now);
   timeinfo = *ptm;
-}
+  }
 */
 
-void showTime(tm *localTime) {
-  Serial.print(localTime->tm_mday);
+void showTime(tm localTime) {
+  Serial.print(localTime.tm_mday);
   Serial.print('/');
-  Serial.print(localTime->tm_mon + 1);
+  Serial.print(localTime.tm_mon + 1);
   Serial.print('/');
-  Serial.print(localTime->tm_year - 100);
+  Serial.print(localTime.tm_year - 100);
   Serial.print('-');
-  Serial.print(localTime->tm_hour);
+  Serial.print(localTime.tm_hour);
   Serial.print(':');
-  Serial.print(localTime->tm_min);
+  Serial.print(localTime.tm_min);
   Serial.print(':');
-  Serial.print(localTime->tm_sec);
+  Serial.print(localTime.tm_sec);
   Serial.print(" Day of Week ");
-  if (localTime->tm_mday = 0) localTime->tm_mday = 7;
-  Serial.println(localTime->tm_wday);
+  if (localTime.tm_wday == 0)   Serial.println(7);
+  else Serial.println(localTime.tm_wday);
 }
+
+
+/*
+ // Shorter way of displaying the time
+  void showTime(tm localTime) {
+  Serial.printf(
+    "%04d-%02d-%02d %02d:%02d:%02d, day %d, %s time\n",
+    localTime.tm_year + 1900,
+    localTime.tm_mon + 1,
+    localTime.tm_mday,
+    localTime.tm_hour,
+    localTime.tm_min,
+    localTime.tm_sec,
+    (localTime.tm_wday > 0 ? localTime.tm_wday : 7 ),
+    (localTime.tm_isdst == 1 ? "summer" : "standard")
+  );
+  }
+
+*/
